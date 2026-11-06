@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>بصمة خضراء | مختبر القرار البيئي والحس الجمالي في البيئة العراقية</title>
+  <!-- Google Fonts: Readex Pro & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5.3 RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header sticky-top">
+    <div class="container-fluid px-3 px-lg-5 py-2">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <!-- Brand -->
+        <div class="d-flex align-items-center gap-3">
+          <div class="brand-logo d-flex align-items-center justify-content-center">
+            <i class="bi bi-tree-fill"></i>
+          </div>
+          <div>
+            <div class="d-flex align-items-center gap-2">
+              <h1 class="brand-title mb-0">بصمة خضراء</h1>
+              <span class="badge bg-emerald-soft text-emerald-dark rounded-pill small">الإصدار 1.0</span>
+            </div>
+            <p class="brand-subtitle mb-0">تجربة تفاعلية في الجغرافيا البيئية لطلاب المرحلة المتوسطة في العراق</p>
+          </div>
+        </div>
+
+        <!-- Student Name & Actions -->
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <div class="student-badge d-flex align-items-center gap-2 px-3 py-1 rounded-pill" id="studentInfoPill" role="button" data-bs-toggle="modal" data-bs-target="#studentModal" title="تعديل بيانات الطالب">
+            <i class="bi bi-person-badge-fill text-emerald"></i>
+            <span id="studentNameDisplay">محقق بيئي: غير مسجل</span>
+            <i class="bi bi-pencil-square small opacity-75"></i>
+          </div>
+
+          <button class="btn btn-sm btn-outline-emerald d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#researchModal">
+            <i class="bi bi-journal-check"></i>
+            <span>مصفوفة البحث والتقييم</span>
+          </button>
+
+          <button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#aiConfigModal">
+            <i class="bi bi-stars text-warning"></i>
+            <span>الموجّه الذكي (AI)</span>
+          </button>
+
+          <button class="btn btn-sm btn-emerald d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#recordsModal" onclick="renderSavedRecords()">
+            <i class="bi bi-bar-chart-line-fill"></i>
+            <span>سجل الأداء</span>
+            <span class="badge bg-white text-emerald rounded-pill ms-1" id="recordsCountBadge">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="container-fluid px-3 px-lg-5 py-4">
+
+    <!-- Component 1: Scenario Selector Bar (لوحة الموقف البيئي) -->
+    <section class="scenario-selector-section mb-4" aria-label="اختيار القضية البيئية">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+        <div class="d-flex align-items-center gap-2">
+          <span class="section-tag"><i class="bi bi-geo-alt-fill me-1"></i>المكوّن الأول: لوحة الموقف البيئي</span>
+          <span class="text-muted small d-none d-md-inline">اختر إحدى القضايا البيئية الثلاث في العراق لتبدأ التحقيق البيئي (3–5 دقائق لكل نشاط)</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-xs btn-link text-decoration-none text-muted p-0" onclick="resetCurrentScenario()">
+            <i class="bi bi-arrow-counterclockwise"></i> إعادة تعيين السيناريو الحالي
+          </button>
+        </div>
+      </div>
+
+      <div class="row g-3" id="scenarioTabsContainer">
+        <!-- Populated dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- 5-Step Journey Stepper -->
+    <section class="journey-stepper-card mb-4">
+      <div class="stepper-wrapper" id="stepperWrapper">
+        <button class="step-item active" onclick="goToStep(1)" data-step="1">
+          <div class="step-circle">01</div>
+          <div class="step-text">
+            <span class="step-title">اكتشف الموقف</span>
+            <span class="step-desc">رصد المشكلة البيئية</span>
+          </div>
+        </button>
+        <div class="step-connector"></div>
+        <button class="step-item" onclick="goToStep(2)" data-step="2">
+          <div class="step-circle">02</div>
+          <div class="step-text">
+            <span class="step-title">حلّل الأسباب</span>
+            <span class="step-desc">تفسير العوامل والأدلة</span>
+          </div>
+        </button>
+        <div class="step-connector"></div>
+        <button class="step-item" onclick="goToStep(3)" data-step="3">
+          <div class="step-circle">03</div>
+          <div class="step-text">
+            <span class="step-title">مختبر الحلول</span>
+            <span class="step-desc">المفاضلة واتخاذ القرار</span>
+          </div>
+        </button>
+        <div class="step-connector"></div>
+        <button class="step-item" onclick="goToStep(4)" data-step="4">
+          <div class="step-circle">04</div>
+          <div class="step-text">
+            <span class="step-title">شاهد الأثر وتأمل</span>
+            <span class="step-desc">الأثر البصري والحس الجمالي</span>
+          </div>
+        </button>
+        <div class="step-connector"></div>
+        <button class="step-item" onclick="goToStep(5)" data-step="5">
+          <div class="step-circle">05</div>
+          <div class="step-text">
+            <span class="step-title">الموجّه الذكي والنتيجة</span>
+            <span class="step-desc">التغذية الراجعة والتقويم</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Main Split Screen: Left/Right (Visual Scene + Interactive Investigation) -->
+    <div class="row g-4 align-items-stretch">
+      
+      <!-- Column 1: Interactive Visual Scene & Environmental Indicators (نافذة الأثر البصري) -->
+      <div class="col-lg-6 d-flex flex-column">
+        <div class="visual-panel-card flex-grow-1 d-flex flex-column">
+          <!-- Panel Header -->
+          <div class="visual-panel-header d-flex flex-wrap align-items-center justify-content-between gap-2 p-3 border-bottom">
+            <div>
+              <span class="badge bg-emerald-soft text-emerald-dark mb-1" id="sceneLocationBadge">بيئة الأنهار العراقية</span>
+              <h2 class="h5 fw-bold mb-0" id="sceneTitleDisplay">السيناريو الأول: حارس النهر</h2>
+            </div>
+
+            <!-- Before / After View Switcher -->
+            <div class="btn-group btn-group-sm view-mode-toggle" role="group" aria-label="وضع عرض المشهد">
+              <button type="button" class="btn btn-outline-emerald" id="btnViewBefore" onclick="setSceneViewMode('before')">
+                <i class="bi bi-exclamation-triangle me-1"></i>قبل التدخل
+              </button>
+              <button type="button" class="btn btn-outline-emerald active" id="btnViewSimulated" onclick="setSceneViewMode('simulated')">
+                <i class="bi bi-magic me-1"></i>المحاكاة التفاعلية
+              </button>
+              <button type="button" class="btn btn-outline-emerald" id="btnViewSplit" onclick="setSceneViewMode('split')">
+                <i class="bi bi-layout-split me-1"></i>مقارنة (قبل/بعد)
+              </button>
+            </div>
+          </div>
+
+          <!-- SVG Visual Canvas Container -->
+          <div class="visual-stage-wrapper position-relative flex-grow-1" id="visualStageWrapper">
+            <!-- Mode Badge Overlay -->
+            <div class="scene-status-overlay d-flex align-items-center justify-content-between px-3 py-2">
+              <span class="scene-mode-pill" id="sceneModeLabel">
+                <i class="bi bi-eye-fill me-1"></i>المشهد الحالي: قبل اتخاذ القرار
+              </span>
+              <span class="scene-Sim-note badge bg-dark bg-opacity-75 text-white fw-normal">
+                محاكاة تعليمية تفاعلية للأثر البيئي والجمالي
+              </span>
+            </div>
+
+            <!-- Dynamic SVG Container -->
+            <div id="svgSceneContainer" class="svg-scene-container">
+              <!-- Rendered dynamically by updateScene() in app.js -->
+            </div>
+
+            <!-- Split Comparison Slider Overlay (Shown when split mode is active) -->
+            <div id="splitCompareOverlay" class="split-compare-overlay d-none">
+              <div class="split-before-label">قبل القرار (الوضع المتدهور)</div>
+              <div class="split-after-label">بعد خطتك المختارة</div>
+              <input type="range" min="5" max="95" value="50" class="split-range-Input" id="splitRangeSlider" oninput="updateSplitSlider(this.value)" aria-label="شريط مقارنة قبل وبعد">
+            </div>
+
+            <!-- Interactive Hotspots Legend -->
+            <div class="scene-hotspots-bar px-3 py-2 d-flex flex-wrap align-items-center justify-content-between gap-2">
+              <div class="d-flex align-items-center gap-2 flex-wrap" id="visualChangesBadges">
+                <!-- Dynamic badges showing which visual layers changed -->
+              </div>
+              <small class="text-muted"><i class="bi bi-info-circle me-1"></i>يتغير كل عنصر بصري فقط وفق التدخل المرتبط به</small>
+            </div>
+          </div>
+
+          <!-- Environmental & Aesthetic Indicators Dashboard -->
+          <div class="indicators-dashboard p-3 border-top bg-light-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="fw-bold small text-secondary"><i class="bi bi-sliders me-1"></i>مؤشرات المحاكاة التعليمية للمشهد الجغرافي</span>
+              <span class="small text-muted" id="planEffectSummaryBadge">في انتظار تطبيق خطة الحل</span>
+            </div>
+            <div class="row g-2" id="sceneIndicatorsContainer">
+              <!-- Populated dynamically with 4 progress bars per scenario -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2: Interactive Investigation & Decision Steps -->
+      <div class="col-lg-6 d-flex flex-column">
+        <div class="interaction-panel-card flex-grow-1 d-flex flex-column">
+          
+          <!-- STEP 1: Discover & Identify Problem (اكتشف وحدد المشكلة) -->
+          <div class="step-pane active" id="stepPane1">
+            <div class="pane-header mb-3">
+              <span class="pane-badge">المرحلة 1 من 5 • مهارة تحديد المشكلة والملاحظة الجغرافية</span>
+              <h3 class="h4 fw-bold mt-1" id="step1Title">استكشاف الموقف الجغرافي وتحديد المشكلة</h3>
+            </div>
+
+            <!-- Context Story Box -->
+            <div class="context-story-box p-3 rounded-4 mb-4">
+              <div class="d-flex align-items-start gap-3">
+                <div class="story-icon"><i class="bi bi-compass-fill"></i></div>
+                <div>
+                  <div class="fw-bold text-emerald-dark mb-1" id="contextGeoHeader">السياق الجغرافي</div>
+                  <p class="mb-2 leading-relaxed" id="contextStoryText"></p>
+                  <div class="small text-muted" id="contextGoalHint"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sub-task 1A: Identify the core problem (2 pts in assessment) -->
+            <div class="question-block mb-4">
+              <label class="form-label fw-bold d-flex align-items-center justify-content-between">
+                <span><i class="bi bi-1-circle-fill text-emerald me-1"></i>حدد بدقة المشكلة البيئية الأساسية في هذا الموقف:</span>
+                <span class="badge bg-secondary-subtle text-secondary fw-normal">تحديد المشكلة (درجتان)</span>
+              </label>
+              <div id="problemIdentificationOptions" class="d-flex flex-column gap-2">
+                <!-- Populated by app.js -->
+              </div>
+              <div id="problemIdFeedback" class="instant-feedback-box mt-2 d-none"></div>
+            </div>
+
+            <!-- Sub-task 1B: Initial Aesthetic & Visual Observation -->
+            <div class="question-block mb-4">
+              <label class="form-label fw-bold d-flex align-items-center justify-content-between">
+                <span><i class="bi bi-eye-fill text-emerald me-1"></i>رصد عناصر المشهد الجغرافي (ملاحظة أولية):</span>
+                <span class="badge bg-emerald-soft text-emerald-dark fw-normal">تمهيد الحس الجمالي</span>
+              </label>
+              <p class="text-muted small mb-2">انظر إلى المشهد التفاعلي، ما المظاهر البصرية والبيئية التي تلاحظ تأثرها في الموقع؟ (يمكنك اختيار أكثر من مظهر)</p>
+              <div id="initialObservationChips" class="d-flex flex-wrap gap-2">
+                <!-- Populated by app.js -->
+              </div>
+            </div>
+
+            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+              <span class="text-muted small"><i class="bi bi-lightbulb me-1"></i>اقرأ الموقف بتأنٍ ثم انتقل لتحليل الأسباب</span>
+              <button class="btn btn-emerald px-4 py-2 fw-bold" onclick="goToStep(2)">
+                التالي: تحليل الأسباب <i class="bi bi-arrow-left ms-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Problem Analyzer (المكوّن الثاني: محلل المشكلة - تحليل الأسباب) -->
+          <div class="step-pane d-none" id="stepPane2">
+            <div class="pane-header mb-3">
+              <span class="pane-badge">المرحلة 2 من 5 • المكوّن الثاني: محلل المشكلة</span>
+              <h3 class="h4 fw-bold mt-1">تحليل الأسباب والعوامل المؤثرة</h3>
+              <p class="text-muted small mb-0" id="causesQuestionPrompt">أي العوامل التالية قد يسهم في المشكلة؟ (يمكنك اختيار أكثر من سبب، فالمشكلات البيئية لا تختزل في عامل واحد دائمًا)</p>
+            </div>
+
+            <!-- Causes Selection List -->
+            <div id="causesContainer" class="d-flex flex-column gap-3 mb-3">
+              <!-- Populated by renderCauses() -->
+            </div>
+
+            <!-- Check Causes Classification Button & Analytical Explanation -->
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+              <button class="btn btn-sm btn-outline-emerald" onclick="verifyCausesAnalysis()">
+                <i class="bi bi-search me-1"></i>تحقق من التصنيف العلمي للأسباب المختارة
+              </button>
+              <span class="badge bg-secondary-subtle text-secondary fw-normal">تحليل الأسباب (درجتان)</span>
+            </div>
+
+            <div id="causesAnalysisFeedback" class="causes-feedback-panel p-3 rounded-3 mb-3 d-none">
+              <!-- Shows detailed classification of chosen causes -->
+            </div>
+
+            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+              <button class="btn btn-outline-secondary px-3" onclick="goToStep(1)">
+                <i class="bi bi-arrow-right me-1"></i> السابق
+              </button>
+              <button class="btn btn-emerald px-4 py-2 fw-bold" onclick="goToStep(3)">
+                التالي: مختبر الحلول <i class="bi bi-arrow-left ms-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Solutions Lab (المكوّن الثالث: مختبر الحلول واتخاذ القرار) -->
+          <div class="step-pane d-none" id="stepPane3">
+            <div class="pane-header mb-3">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <span class="pane-badge">المرحلة 3 من 5 • المكوّن الثالث: مختبر الحلول</span>
+                <span class="badge bg-secondary-subtle text-secondary fw-normal">اقتراح الحلول وتبرير القرار (5 درجات)</span>
+              </div>
+              <h3 class="h4 fw-bold mt-1">تصميم خطة التدخل والمفاضلة بين البدائل</h3>
+              <p class="text-muted small mb-0">اختر <strong>إجراءين أو أكثر</strong> لتشكيل خطتك البيئية. لاحظ أن المشهد على اليمين يتحدث فورًا ليريك الأثر البصري لكل تدخل وحدوده!</p>
+            </div>
+
+            <!-- Solutions Cards Grid -->
+            <div class="row g-3 mb-3" id="solutionsContainer">
+              <!-- Populated by renderSolutions() -->
+            </div>
+
+            <!-- Live Plan Characteristics Analyzer (تحليل الخطة المختارة) -->
+            <div class="plan-live-analyzer p-3 rounded-4 mb-3" id="planLiveAnalyzer">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h4 class="h6 fw-bold mb-0"><i class="bi bi-clipboard2-pulse-fill text-emerald me-1"></i>تحليل خصائص الخطة المختارة وتوازنها:</h4>
+                <span class="badge rounded-pill bg-emerald" id="selectedSolutionsCountBadge">0 إجراءات مختارة</span>
+              </div>
+              <div id="planCriteriaChecklist" class="row g-2">
+                <!-- Live criteria tags populated dynamically -->
+              </div>
+            </div>
+
+            <!-- Sub-task 3B: Justification & Constraints (تبرير القرار ومراعاة القيود - 2 pts) -->
+            <div class="question-block mb-3 p-3 rounded-3 bg-light border">
+              <label class="form-label fw-bold mb-2">
+                <i class="bi bi-scales text-emerald me-1"></i>تبرير القرار ومراعاة القيود البيئية والواقعية:
+              </label>
+              <p class="small text-muted mb-2" id="justificationQuestionPrompt"></p>
+              <div id="justificationOptionsContainer" class="d-flex flex-column gap-2">
+                <!-- Populated by app.js -->
+              </div>
+            </div>
+
+            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+              <button class="btn btn-outline-secondary px-3" onclick="goToStep(2)">
+                <i class="bi bi-arrow-right me-1"></i> السابق
+              </button>
+              <button class="btn btn-emerald px-4 py-2 fw-bold" onclick="applyPlanAndGoToStep4()">
+                محاكاة الأثر والتأمل الجمالي <i class="bi bi-magic ms-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Visual Effect & Aesthetic Reflection (المكوّن الرابع + التأمل الجمالي وتوقع النتائج) -->
+          <div class="step-pane d-none" id="stepPane4">
+            <div class="pane-header mb-3">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <span class="pane-badge">المرحلة 4 من 5 • ملاحظة الأثر والتأمل الجمالي</span>
+                <span class="badge bg-emerald-soft text-emerald-dark fw-normal">تقييم مستقل للحس الجمالي (0–2 درجة)</span>
+              </div>
+              <h3 class="h4 fw-bold mt-1">ملاحظة التغير البصري وتذوق جمال البيئة</h3>
+              <p class="text-muted small mb-0">تأمل تغير المشهد الجغرافي بعد تطبيق خطتك (جرب زر <strong>مقارنة قبل/بعد</strong> أعلى المشهد)، ثم أجب عن أسئلة التوقع والتأمل الجمالي:</p>
+            </div>
+
+            <!-- Visual Change Explanation Summary -->
+            <div class="visual-explanation-card p-3 rounded-3 mb-3" id="step4VisualSummary">
+              <!-- Populated dynamically explaining why each visual element changed or didn't change -->
+            </div>
+
+            <!-- Sub-task 4A: Outcome Prediction & Plan Review (توقع النتائج ومراجعة الخطة - 1 pt) -->
+            <div class="question-block mb-3 p-3 rounded-3 border bg-white">
+              <label class="form-label fw-bold d-flex align-items-center justify-content-between">
+                <span><i class="bi bi-graph-up-arrow text-emerald me-1"></i>توقع النتائج ومراجعة الخطة على المدى الطويل:</span>
+                <span class="badge bg-secondary-subtle text-secondary fw-normal">درجة واحدة</span>
+              </label>
+              <p class="small text-muted mb-2" id="predictionQuestionPrompt"></p>
+              <div id="predictionOptionsContainer" class="d-flex flex-column gap-2">
+                <!-- Populated by app.js -->
+              </div>
+            </div>
+
+            <!-- Sub-task 4B: Aesthetic Sense Assessment (تقييم الحس الجمالي المستقل - 0 to 2 scale) -->
+            <div class="aesthetic-assessment-block p-3 rounded-4 mb-3">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h4 class="h6 fw-bold mb-0 text-emerald-dark">
+                  <i class="bi bi-palette2 me-1"></i>مهمة الحس الجمالي والتناسق البيئي (تقييم مستقل)
+                </h4>
+                <span class="badge bg-white text-emerald border">سلم التقدير: 0 - 1 - 2</span>
+              </div>
+              <p class="small mb-2 fw-medium" id="aestheticPromptText"></p>
+
+              <!-- Structured Rubric Choice + Optional Free Reflection -->
+              <label class="small text-muted mb-1 d-block">1. اختر التفسير الذي يعبّر بدقة عن ملاحظتك الجمالية للمشهد:</label>
+              <div id="aestheticChoicesContainer" class="d-flex flex-column gap-2 mb-3">
+                <!-- Populated with 3 options corresponding to 0, 1, 2 rubric levels -->
+              </div>
+
+              <label for="aestheticFreeText" class="small text-muted mb-1 d-block">
+                2. تأمل شخصي إضافي (اختياري - يعزز تقييمك ويدخل في تحليل الموجّه الذكي): ما العنصر الطبيعي الذي ترى أنه الأجمل ولماذا يستحق الحماية؟
+              </label>
+              <textarea id="aestheticFreeText" class="form-control form-control-sm" rows="2" placeholder="اكتب ملاحظتك حول تناسق الماء والتربة والنباتات أو جمال المكان العام..."></textarea>
+            </div>
+
+            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+              <button class="btn btn-outline-secondary px-3" onclick="goToStep(3)">
+                <i class="bi bi-arrow-right me-1"></i> تعديل خطة الحل
+              </button>
+              <button class="btn btn-emerald px-4 py-2 fw-bold" onclick="completeAndEvaluateScenario()">
+                إصدار التقييم والتغذية الراجعة <i class="bi bi-award-fill ms-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 5: Smart Mentor & Results (المكوّن الخامس: الموجّه الذكي والنتيجة) -->
+          <div class="step-pane d-none" id="stepPane5">
+            <div class="pane-header mb-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <div>
+                <span class="pane-badge">المرحلة 5 من 5 • المكوّن الخامس: الموجّه الذكي والنتيجة</span>
+                <h3 class="h4 fw-bold mt-1 mb-0">تقرير المحقق البيئي والتغذية الراجعة التفسيرية</h3>
+              </div>
+              <button class="btn btn-sm btn-outline-emerald" onclick="saveCurrentAttemptToRecords()">
+                <i class="bi bi-bookmark-check-fill me-1"></i>حفظ في سجل الأداء
+              </button>
+            </div>
+
+            <!-- Dual Score Cards: Separating Problem-Solving (10) from Aesthetic Sense (2) -->
+            <div class="row g-3 mb-3">
+              <!-- Variable 1: Environmental Problem Solving (10 pts) -->
+              <div class="col-md-7">
+                <div class="score-card problem-score-card p-3 rounded-4 h-100">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="small fw-bold text-uppercase text-emerald-dark">المتغير الأول: مهارات حل المشكلات البيئية</span>
+                    <span class="score-pill-lg" id="totalProblemScoreBadge">0 / 10</span>
+                  </div>
+                  <div class="progress mb-2" style="height: 8px;">
+                    <div class="progress-bar bg-emerald" id="problemScoreProgressBar" style="width: 0%"></div>
+                  </div>
+                  <div class="skill-breakdown-list small" id="skillBreakdownList">
+                    <!-- Populated dynamically with the 5 sub-skills (2+2+3+2+1 = 10) -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Variable 2: Aesthetic Sense (2 pts) -->
+              <div class="col-md-5">
+                <div class="score-card aesthetic-score-card p-3 rounded-4 h-100 d-flex flex-column justify-content-between">
+                  <div>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                      <span class="small fw-bold text-amber-dark">المتغير الثاني: الحس الجمالي</span>
+                      <span class="score-pill-lg aesthetic-pill" id="totalAestheticScoreBadge">0 / 2</span>
+                    </div>
+                    <div class="progress mb-2" style="height: 8px;">
+                      <div class="progress-bar bg-warning" id="aestheticScoreProgressBar" style="width: 0%"></div>
+                    </div>
+                    <p class="small mb-2 fw-medium" id="aestheticLevelTitle">مستوى الأداء الجمالي</p>
+                    <p class="small text-muted mb-0" id="aestheticLevelDescription"></p>
+                  </div>
+                  <div class="mt-2 pt-2 border-top small text-muted">
+                    <i class="bi bi-info-circle me-1"></i>يُقاس الحس الجمالي بصورة مستقلة عن درجة حل المشكلة.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pedagogical Rule-Based Feedback Box -->
+            <div class="mentor-feedback-card p-3 rounded-4 mb-3">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="mentor-avatar"><i class="bi bi-robot"></i></div>
+                  <div>
+                    <h4 class="h6 fw-bold mb-0">تفسير الموجّه التربوي لقراراتك</h4>
+                    <span class="text-muted" style="font-size: 0.75rem;">قواعد تقييم تربوية تفصل بين تحسين المظهر ومعالجة الجذور</span>
+                  </div>
+                </div>
+                <button class="btn btn-xs btn-warning d-flex align-items-center gap-1 fw-bold" id="btnGenerateAIMentor" onclick="requestAIMentorFeedback()">
+                  <i class="bi bi-stars"></i>
+                  <span>توليد تحليل ذكي مخصص (AI)</span>
+                </button>
+              </div>
+
+              <div id="pedagogicalFeedbackContent" class="small">
+                <!-- Strengths, Limitations, Next Step, Aesthetic Indicator -->
+              </div>
+
+              <!-- Optional Layer 2: Generative AI Mentor Output -->
+              <div id="aiMentorResponseBox" class="ai-response-box mt-3 p-3 rounded-3 d-none">
+                <!-- Populated by AI service layer -->
+              </div>
+            </div>
+
+            <!-- Action Buttons: Re-think Decision or Next Scenario -->
+            <div class="mt-auto pt-3 border-top d-flex flex-wrap justify-content-between align-items-center gap-2">
+              <button class="btn btn-outline-emerald" onclick="goToStep(3)">
+                <i class="bi bi-arrow-repeat me-1"></i>إعادة التفكير وتعديل الخطة
+              </button>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary" onclick="exportSingleReportJSON()">
+                  <i class="bi bi-download me-1"></i>تصدير التقرير
+                </button>
+                <button class="btn btn-emerald fw-bold" onclick="loadNextScenario()">
+                  السيناريو التالي <i class="bi bi-chevron-left ms-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL 1: Student Information -->
+  <div class="modal fade" id="studentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title fw-bold"><i class="bi bi-person-Vcard text-emerald me-2"></i>بيانات الطالب (المحقق البيئي)</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small">تُحفظ هذه البيانات محليًا في متصفحك فقط لتوثيق تقارير الأداء في الدراسة التجريبية (مراعاة لخصوصية الطلاب).</p>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">اسم الطالب أو الرمز البحثي:</label>
+            <input type="text" id="studentNameInput" class="form-control" placeholder="مثال: أحمد علي / طالب رقم 12">
+          </div>
+          <div class="row g-2">
+            <div class="col-6">
+              <label class="form-label small fw-bold">الصف الدراسي:</label>
+              <select id="studentGradeInput" class="form-select">
+                <option value="الأول المتوسط">الأول المتوسط</option>
+                <option value="الثاني المتوسط" selected>الثاني المتوسط</option>
+                <option value="الثالث المتوسط">الثالث المتوسط</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">المجموعة البحثية:</label>
+              <select id="studentGroupInput" class="form-select">
+                <option value="المجموعة التجريبية">المجموعة التجريبية</option>
+                <option value="التجربة الاستطلاعية">التجربة الاستطلاعية</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-top-0 pt-0">
+          <button type="button" class="btn btn-emerald w-100 fw-bold" onclick="saveStudentProfile()" data-bs-dismiss="modal">حفظ البيانات والبدء</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Saved Performance Records (R8 — تسجيل الأداء) -->
+  <div class="modal fade" id="recordsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="bi bi-bar-chart-line-fill text-emerald me-2"></i>سجل أداء الطالب والتقويم البحثي (R8)</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-emerald-soft small mb-3">
+            <i class="bi bi-shield-check me-1"></i>
+            <strong>فصل المتغيرات البحثية:</strong> يعرض هذا السجل درجات <strong>مهارات حل المشكلات البيئية (من 10)</strong> منفصلة عن درجات <strong>الحس الجمالي (من 2)</strong> لكل سيناريو، مع إمكانية تصديرها بصيغة CSV أو JSON لأغراض التحليل الإحصائي في الرسالة العلمية.
+          </div>
+          <div id="savedRecordsTableWrapper">
+            <!-- Populated by renderSavedRecords() -->
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearAllSavedRecords()">
+            <i class="bi bi-trash me-1"></i>مسح السجل المحلي
+          </button>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-sm btn-outline-emerald" onclick="exportRecordsCSV()">
+              <i class="bi bi-filetype-csv me-1"></i>تصدير CSV (Excel)
+            </button>
+            <button type="button" class="btn btn-sm btn-emerald" onclick="exportRecordsJSON()">
+              <i class="bi bi-filetype-json me-1"></i>تصدير JSON
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Research Matrix & Functional Requirements Checklist -->
+  <div class="modal fade" id="researchModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="bi bi-journal-bookmark-fill text-emerald me-2"></i>وثيقة التصميم ومصفوفة المتغيرات البحثية لتطبيق «بصمة خضراء»</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <h6 class="fw-bold text-emerald-dark border-bottom pb-2">1. مصفوفة الربط بين الأنشطة والمهارات المستهدفة</h6>
+              <div class="table-responsive">
+                <table class="table table-sm table-bordered small align-middle">
+                  <thead class="table-light">
+                    <tr>
+                      <th>المتغير والمهارة المستهدفة</th>
+                      <th>دليل الأداء داخل النشاط</th>
+                      <th>الوزن</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>تحديد المشكلة</strong> (حل المشكلات)</td>
+                      <td>اختيار المشكلة الأساسية وصياغتها بدقة من معطيات المشهد</td>
+                      <td>2 / 10</td>
+                    </tr>
+                    <tr>
+                      <td><strong>تحليل الأسباب</strong> (حل المشكلات)</td>
+                      <td>تحديد الأسباب المباشرة والتمييز بينها وبين الظواهر غير المسببة</td>
+                      <td>2 / 10</td>
+                    </tr>
+                    <tr>
+                      <td><strong>اقتراح واختيار الحلول</strong></td>
+                      <td>اختيار حزمة حلول متوازنة تجمع بين معالجة المصدر والوقاية</td>
+                      <td>3 / 10</td>
+                    </tr>
+                    <tr>
+                      <td><strong>تبرير القرار ومراعاة القيود</strong></td>
+                      <td>تبرير الاختيار وفق الفاعلية ومحدودية الموارد والقيود الواقعية</td>
+                      <td>2 / 10</td>
+                    </tr>
+                    <tr>
+                      <td><strong>توقع النتائج ومراجعة الخطة</strong></td>
+                      <td>تمييز الأثر المستدام عن التحسين الشكلي المؤقت</td>
+                      <td>1 / 10</td>
+                    </tr>
+                    <tr class="table-warning">
+                      <td><strong>الحس الجمالي</strong> (متغير مستقل التقييم)</td>
+                      <td>ملاحظة عناصر المشهد وتفسير علاقة التناسق والتنوع بقيمة البيئة</td>
+                      <td>0 – 2</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h6 class="fw-bold text-emerald-dark border-bottom pb-2">2. قائمة تحقق المتطلبات الوظيفية (R1 – R8)</h6>
+              <ul class="list-group list-group-flush small">
+                <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i> <strong>R1 — اختيار القضية البيئية:</strong> 3 قضايا عراقية (حارس النهر، أنقذ أرضنا، مدينتنا أجمل).</li>
+                <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i> <strong>R2 — تحديد الأسباب:</strong> اختيار متعدد مع تصنيف علمي وتفسير لكل عامل.</li>
+                <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i> <strong>R3 — اختيار الحلول:</strong> بطاقات تفاعلية توضح نوع التدخل والفائدة والقيود.</li>
+                <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i> <strong>R4 — تقييم الخطة:</strong> تقييم نوعي وفق ملاءمة السبب والحلول، لا مجرد عدد الاختيارات.</li>
+                <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i> <strong>R5 — تغيير المشهد:</strong> طبقات SVG ديناميكية تتغير كل طبقة فيها فقط وفق القرار المرتبط بها.</li>
+                <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i> <strong>R6 — التغذية الراجعة:</strong> توضيح نقاط القوة والقصور والخطوة التالية المقترحة.</li>
+                <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i> <strong>R7 — التأمل الجمالي:</strong> مهمة تقييمية مستقلة (0–2) حول التناسق والتنوع وقيمة الجمال البيئي.</li>
+                <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i> <strong>R8 — تسجيل الأداء:</strong> حفظ محلي وتصدير CSV/JSON مع حماية خصوصية الطلاب.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: AI Layer Configuration (خطة تطوير الذكاء الاصطناعي لاحقًا) -->
+  <div class="modal fade" id="aiConfigModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="bi bi-stars text-warning me-2"></i>إعدادات طبقة الموجّه الذكي (المرحلة 1 والمرحلة 2)</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+        </div>
+        <div class="modal-body small">
+          <p class="text-muted">
+            وفق وثيقة التصميم، صُمّم «بصمة خضراء» بحيث يعمل <strong>الإصدار الأول</strong> بقواعد تربوية ثابتة وموثوقة دون الحاجة لإنترنت أو خادم، مع فصل طبقة الذكاء الاصطناعي التوليدي لتكون قابلة للتفعيل عبر خادم وسيط (Proxy Endpoint) في <strong>المرحلة الثانية</strong> دون المساس بدرجات التقييم الرسمية.
+          </p>
+          <div class="mb-3">
+            <label class="form-label fw-bold">وضع عمل الموجّه الذكي:</label>
+            <select id="aiModeSelect" class="form-select form-select-sm" onchange="toggleAIModeConfig()">
+              <option value="local_smart" selected>المرحلة 1 (الافتراضي): محرك التوليد التربوي المحلي المبني على القواعد</option>
+              <option value="remote_proxy">المرحلة 2: الاتصال بخدمة ذكاء اصطناعي عبر خادم وسيط آمن (API Proxy)</option>
+            </select>
+          </div>
+          <div id="remoteProxyConfigBox" class="d-none p-3 rounded-3 bg-light border mb-3">
+            <label class="form-label fw-bold">رابط الخادم الوسيط (Backend Proxy URL):</label>
+            <input type="url" id="aiProxyUrlInput" class="form-control form-control-sm mb-2" placeholder="https://your-school-server.edu.iq/api/green-footprint-mentor">
+            <div class="text-muted" style="font-size: 0.75rem;">
+              <i class="bi bi-shield-lock-fill text-emerald me-1"></i>تنبيه بحثي وأمني: لا يُوضع مفتاح API السري داخل كود المتصفح، ولا تُرسل بيانات شخصية عن الطلاب القاصرين، بل يُرسل فقط (معرّف السيناريو، الأسباب المختارة، والحلول المختارة).
+            </div>
+          </div>
+          <div class="p-2 rounded bg-emerald-soft text-emerald-dark">
+            <strong>المدخلات المهيكلة التي يرسلها التطبيق للموجّه الذكي:</strong>
+            <code class="d-block mt-1 text-dark" style="font-size:0.72rem;" id="aiPayloadPreview">{"scenarioId": "river", "causes": [], "solutions": [], "scores": {}}</code>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-emerald fw-bold" data-bs-dismiss="modal" onclick="saveAIConfig()">حفظ الإعدادات</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container for Notifications -->
+  <div class="toast-container position-fixed bottom-0 start-0 p-3" style="z-index: 1080;">
+    <div id="appToast" class="toast align-items-center text-bg-dark border-0 rounded-3" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body small" id="appToastBody">تم الحفظ بنجاح.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="إغلاق"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Main Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

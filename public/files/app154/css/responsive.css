@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Responsive Stylesheet - التكيف مع الشاشات المتعددة والأجهزة اللمسية
+   ========================================================================== */
+
+@media (max-width: 992px) {
+  .driver-stepper {
+    overflow-x: auto;
+    padding-bottom: 10px;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+
+  .driver-stepper::before,
+  .driver-stepper-progress {
+    display: none;
+  }
+
+  .conflict-split-view {
+    grid-template-columns: 1fr;
+  }
+
+  .mirror-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-dual-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-navbar {
+    padding: 0.6rem 1rem;
+  }
+
+  .brand-title {
+    font-size: 1rem;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .opinion-scale-points {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .opinion-scale-points::before {
+    display: none;
+  }
+
+  .opinion-btn {
+    width: 60px;
+  }
+
+  .opinion-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .opinion-label {
+    font-size: 0.7rem;
+  }
+
+  .drop-zones-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .map-svg-wrapper {
+    height: 340px;
+  }
+
+  .lens-floating-trigger {
+    bottom: 15px;
+    left: 15px;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .app-card {
+    padding: 1.25rem;
+  }
+
+  .decision-room-terminal {
+    padding: 1.25rem;
+  }
+
+  .profile-hero {
+    padding: 1.75rem 1rem;
+  }
+
+  .gauge-percentage {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-app-primary,
+  .btn-app-success,
+  .btn-app-outline {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .conflict-actions-bar {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .evidence-grid {
+    grid-template-columns: 1fr;
+  }
+}

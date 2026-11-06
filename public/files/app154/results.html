@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تقرير الجلسة ولوحة المهارات | برنامج الجغرافيا التفاعلي</title>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/activities.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <style>
+    @media print {
+      .app-navbar, .no-print, .btn, .app-footer {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+      }
+      .app-card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شريط التنقل العلوي -->
+  <nav class="app-navbar">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <a href="units.html" class="brand-wrapper">
+        <div class="brand-icon">
+          <i class="bi bi-award"></i>
+        </div>
+        <div>
+          <div class="brand-title">لوحة المهارات التحليلية</div>
+          <div class="brand-subtitle">ملف أداء الطالب وفق أبعاد الأمن الفكري والوعي بالأحداث الجارية</div>
+        </div>
+      </a>
+      <div class="d-flex gap-2">
+        <button class="btn btn-sm btn-outline-light" onclick="window.print()">
+          <i class="bi bi-printer"></i> طباعة التقرير
+        </button>
+        <a href="units.html" class="btn btn-sm btn-light">
+          <i class="bi bi-grid"></i> الوحدات
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <!-- بطاقة التتويج الرئيسية (Hero Profile) -->
+    <div class="profile-hero shadow-lg animate-fade-in">
+      <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-2">
+        <i class="bi bi-trophy-fill"></i> ختام المهمة الاستقصائية بنجاح
+      </span>
+      <h1 class="display-6 fw-bold mb-1" id="studentMasteryTitle">خبير استقصائي ومحلل جغرافي</h1>
+      <p class="text-light opacity-75 max-w-75 mx-auto mb-4" id="lessonCompletedTitle">
+        أكملت بنجاح مراحل نموذج درايفر الخمس في تحليل قضايا الجغرافيا والأحداث الجارية.
+      </p>
+
+      <div class="row g-3 justify-content-center" style="max-width: 650px; margin: 0 auto;">
+        <div class="col-4">
+          <div class="p-3 bg-white bg-opacity-10 rounded-3 border border-light border-opacity-25">
+            <h3 class="fw-bold mb-0 text-warning" id="statOverallAvg">0%</h3>
+            <span class="small text-light">المعدل العام</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="p-3 bg-white bg-opacity-10 rounded-3 border border-light border-opacity-25">
+            <h3 class="fw-bold mb-0 text-info" id="statIsAvg">0%</h3>
+            <span class="small text-light">الأمن الفكري</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="p-3 bg-white bg-opacity-10 rounded-3 border border-light border-opacity-25">
+            <h3 class="fw-bold mb-0 text-success" id="statCeAvg">0%</h3>
+            <span class="small text-light">الوعي بالأحداث</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- بطاقات نقاط القوة والتطوير -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <div class="p-3 bg-success-soft border border-success rounded-3 d-flex align-items-center gap-3">
+          <div class="rounded-circle bg-success text-white p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+            <i class="bi bi-star-fill fs-5"></i>
+          </div>
+          <div>
+            <span class="badge bg-success small mb-1">أقوى مهارة لديك</span>
+            <h6 class="fw-bold text-dark mb-0" id="strongestSkillName">التحقق من المعلومات والمصادر</h6>
+            <p class="small text-muted mb-0" id="strongestSkillNote">أظهرت دقة عالية في فحص الوثائق وعدم الانخداع بالمنشورات المضللة.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="p-3 bg-warning-soft border border-warning rounded-3 d-flex align-items-center gap-3">
+          <div class="rounded-circle bg-warning text-dark p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+            <i class="bi bi-lightbulb-fill fs-5"></i>
+          </div>
+          <div>
+            <span class="badge bg-warning text-dark small mb-1">مهارة تحتاج لمزيد من الممارسة</span>
+            <h6 class="fw-bold text-dark mb-0" id="needPracticeSkillName">الوعي بالتسلسل الزمني</h6>
+            <p class="small text-muted mb-0" id="needPracticeSkillNote">ننصح بمزيد من التدرب على ترتيب أحداث الظواهر الجغرافية لتتبع أسبابها خطوة بخطوة.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- شبكة التحليل التفصيلي للمحورين -->
+    <div class="skills-dual-grid">
+      <!-- 1. أبعاد الأمن الفكري -->
+      <div class="skill-category-card">
+        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+          <i class="bi bi-shield-check text-primary fs-4"></i>
+          <div>
+            <h5 class="fw-bold mb-0 text-dark">مؤشرات الأمن الفكري</h5>
+            <span class="text-muted small">تقييم المهارات السلوكية الست في مواجهة التضليل</span>
+          </div>
+        </div>
+        <div id="intellectualSkillsList">
+          <!-- يتم الحقن بالجافاسكريبت -->
+        </div>
+      </div>
+
+      <!-- 2. أبعاد الوعي بالأحداث الجارية -->
+      <div class="skill-category-card">
+        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+          <i class="bi bi-newspaper text-success fs-4"></i>
+          <div>
+            <h5 class="fw-bold mb-0 text-dark">مؤشرات الوعي بالأحداث الجارية</h5>
+            <span class="text-muted small">تقييم الأبعاد الجغرافية الستة لفهم الواقع</span>
+          </div>
+        </div>
+        <div id="currentEventsSkillsList">
+          <!-- يتم الحقن بالجافاسكريبت -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ملخص مرآة التفكير قبل وبعد -->
+    <div class="app-card mb-4">
+      <div class="app-card-header">
+        <h5 class="fw-bold text-dark mb-0"><i class="bi bi-arrow-left-right text-purple"></i> ملخص التحول المعرفي (مرآة التفكير)</h5>
+        <span class="badge bg-purple text-dark">تطور الفهم</span>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="p-3 bg-light rounded-3 border">
+            <span class="badge bg-secondary mb-1">الموقف الأولي (قبل فحص الأدلة)</span>
+            <p class="small text-muted mb-0" id="summaryInitialBelief">كنت متردداً وتعتمد على الانطباع الأولي ومحتوى المنشورات المتداولة.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="p-3 bg-success-soft rounded-3 border border-success">
+            <span class="badge bg-success mb-1">الموقف النهائي (بعد الأدلة والتحقيق)</span>
+            <p class="small fw-bold text-dark mb-0" id="summaryFinalBelief">بناء حكم علمي مستند إلى البيانات الهيدرولوجية والفحوصات المختبرية ومقاومة الشائعات.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- أوسمة التميز المكتسبة -->
+    <div class="app-card mb-4">
+      <h5 class="fw-bold text-dark mb-2"><i class="bi bi-patch-check-fill text-warning"></i> أوسمة الجدارة الفكرية المكتسبة</h5>
+      <p class="text-muted small mb-3">شارات رقمية حصلت عليها نظير دقتك وموضوعيتك أثناء تنفيذ المهمة:</p>
+      
+      <div class="badges-container" id="badgesEarnedList">
+        <!-- أوسمة الجلسة -->
+      </div>
+    </div>
+
+    <!-- أزرار الإجراءات السفلية -->
+    <div class="d-flex justify-content-center gap-3 flex-wrap no-print pt-2 pb-5">
+      <button class="btn btn-app-primary" onclick="window.print()">
+        <i class="bi bi-printer-fill"></i> طباعة / حفظ كملف PDF
+      </button>
+      <a href="lesson.html?lesson=water-crisis" class="btn btn-app-outline">
+        <i class="bi bi-arrow-repeat"></i> إعادة خوض المهمة
+      </a>
+      <a href="units.html" class="btn btn-app-success">
+        <i class="bi bi-arrow-left-circle"></i> الانتقال لمهمة أخرى
+      </a>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <div class="container text-center">
+      <p class="mb-0 text-muted small">برنامج الجغرافيا التفاعلي القائم على نموذج درايفر | المرحلة المتوسطة - العراق</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data/units-data.js"></script>
+  <script src="js/data/lesson-water.js"></script>
+  <script src="js/data/lesson-road.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/scoring-engine.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const lessonParam = urlParams.get('lesson') || 'water-crisis';
+
+      let currentLesson = LESSON_WATER_DATA;
+      if (lessonParam === 'development-road' && typeof LESSON_ROAD_DATA !== 'undefined') {
+        currentLesson = LESSON_ROAD_DATA;
+      }
+
+      AppState.init(currentLesson);
+      const report = ScoringEngine.generateSessionReport();
+
+      // تحديث الأرقام والعناوين
+      document.getElementById("studentMasteryTitle").innerText = report.masteryTitle;
+      document.getElementById("lessonCompletedTitle").innerText = `المهمة المنجزة: ${currentLesson.title}`;
+      document.getElementById("statOverallAvg").innerText = `${report.overallAvg}%`;
+      document.getElementById("statIsAvg").innerText = `${report.isAvg}%`;
+      document.getElementById("statCeAvg").innerText = `${report.ceAvg}%`;
+
+      document.getElementById("strongestSkillName").innerText = report.strongestSkill.name;
+      document.getElementById("needPracticeSkillName").innerText = report.needPracticeSkill.name;
+
+      // ملخص الفكر قبل وبعد
+      const initialOp = AppState.initialOpinion || 3;
+      document.getElementById("summaryInitialBelief").innerText = `مستوى ثقتك الأولى في المنشور كان (${initialOp} من 5)، وتفسيرك كان مبنياً على الاستماع السريع للآراء الشائعة.`;
+      if (AppState.finalClaim) {
+        document.getElementById("summaryFinalBelief").innerText = AppState.finalClaim;
+      }
+
+      // قائمة مهارات الأمن الفكري
+      const isList = document.getElementById("intellectualSkillsList");
+      const isLabels = {
+        verification: "التحقق من المعلومات",
+        factDistinction: "التمييز بين الحقيقة والرأي",
+        criticalThinking: "التفكير النقدي في الأدلة",
+        rumorResistance: "مقاومة الشائعات والتضليل",
+        objectivity: "الموضوعية وتعدد وجهات النظر",
+        evidenceJudgment: "إصدار الحكم المستند للأدلة"
+      };
+
+      let isHtml = "";
+      for (const [key, val] of Object.entries(report.isScores)) {
+        isHtml += `
+          <div class="skill-row">
+            <div class="skill-label-row">
+              <span class="text-slate">${isLabels[key] || key}</span>
+              <span class="text-primary fw-bold">${val}%</span>
+            </div>
+            <div class="skill-progress-bar">
+              <div class="skill-progress-fill bg-primary" style="width: ${val}%;"></div>
+            </div>
+          </div>
+        `;
+      }
+      isList.innerHTML = isHtml;
+
+      // قائمة مهارات الوعي بالأحداث الجارية
+      const ceList = document.getElementById("currentEventsSkillsList");
+      const ceLabels = {
+        spatial: "الوعي المكاني (الخرائط والمواقع)",
+        temporal: "الوعي الزمني (التسلسل والتاريخ)",
+        causal: "الوعي السببي (العوامل والظواهر)",
+        actors: "الوعي بالأطراف والجهات الفاعلة",
+        impact: "الوعي بالنتائج والتداعيات",
+        context: "الوعي بالسياق العام للقضية"
+      };
+
+      let ceHtml = "";
+      for (const [key, val] of Object.entries(report.ceScores)) {
+        ceHtml += `
+          <div class="skill-row">
+            <div class="skill-label-row">
+              <span class="text-slate">${ceLabels[key] || key}</span>
+              <span class="text-success fw-bold">${val}%</span>
+            </div>
+            <div class="skill-progress-bar">
+              <div class="skill-progress-fill bg-success" style="width: ${val}%;"></div>
+            </div>
+          </div>
+        `;
+      }
+      ceList.innerHTML = ceHtml;
+
+      // قائمة الأوسمة
+      const badgesContainer = document.getElementById("badgesEarnedList");
+      badgesContainer.innerHTML = report.badges.map(b => `
+        <div class="earned-badge border-primary">
+          <i class="bi ${b.icon} text-primary fs-5"></i>
+          <span>${b.name}</span>
+        </div>
+      `).join('');
+    });
+  </script>
+</body>
+</html>

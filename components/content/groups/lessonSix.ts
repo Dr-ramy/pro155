@@ -1,0 +1,67 @@
+import type { ButtonItem } from "@/components/content/mainitems/types";
+
+export const lessonSix = {
+  items: <ButtonItem[]>[
+    //عشان تضيف فيديو من اليوتيوب خد الرابط من embed
+    { type: "button", id: "6vid0", text: "الأهداف", icon: "intro", time: "" },
+    { type: "button", id: "6act1", text: "تقديم", icon: "activity" },              
+    { type: "button", id: "6act2", text: "نشاط  ", icon: "activity" },
+    { type: "button", id: "6vid1", text: "الأمن السيبراني ", icon: "video", time: "" },
+    { type: "button", id: "6vid2", text: "الجغرافية السياسية والأمن السيبراني ", icon: "video", time: "" },
+    { type: "button", id: "6vid3", text: " مفهوم الأمن السيبراني", icon: "video", time: "" },
+    { type: "button", id: "6vid4", text: "عناصر الامن السيبراني ", icon: "video", time: "" },
+    { type: "button", id: "6vid5", text: "ركائز الأمن السيبراني", icon: "video", time: "" },
+    { type: "button", id: "6vid6", text: "عوامل الأمن السيبراني ", icon: "video", time: "" },
+    { type: "button", id: "6act3", text: "تقديم ", icon: "activity" },
+    { type: "button", id: "6act4", text: " نشاط", icon: "activity" },
+    { type: "button", id: "6vid7", text: "الجريمة السيبرانية ", icon: "video", time: "" },
+    { type: "button", id: "6vid8", text: " أنواع تهديدات الأمن السيبراني  ", icon: "video", time: "" },
+    { type: "button", id: "6vid9", text: " الحماية من التهديدات السيبرانية  ", icon: "video", time: "" },
+    { type: "button", id: "6vid10", text: " ضمان الأمن السيبراني  ", icon: "video", time: "" },
+    { type: "button", id: "6vid11", text: " مخاطر الجريمة السيبرانية  ", icon: "video", time: "" },
+    { type: "button", id: "6vid12", text: "  دوافع الجريمة السيبرانية ", icon: "video", time: "" },
+    { type: "button", id: "6vid13", text: " منشأ الهجمات السيبرانية  ", icon: "video", time: "" },
+    { type: "button", id: "6vid14", text: " دور المجتمع الدولي   ", icon: "video", time: "" },
+    { type: "button", id: "6act5", text: "التقويم", icon: "activity" },
+  ],
+
+  videoMap: {
+    "6vid0": "  /videos/vid6/vid0.mp4    ",
+    "6vid1": "  /videos/vid6/vid1.mp4    ",
+    "6vid2": "  /videos/vid6/vid2.mp4    ",
+    "6vid3": "  /videos/vid6/vid3.mp4    ",
+    "6vid4": "  /videos/vid6/vid4.mp4    ",
+    "6vid5": "  /videos/vid6/vid5.mp4    ",
+    "6vid6": "  /videos/vid6/vid6.mp4    ",
+    "6vid7": "  /videos/vid6/vid7.mp4    ",
+    "6vid8": "  /videos/vid6/vid8.mp4    ",
+    "6vid9": "  /videos/vid6/vid9.mp4    ",
+    "6vid10": " /videos/vid6/vid10.mp4   ",
+    "6vid11": " /videos/vid6/vid11.mp4   ",
+    "6vid12": " /videos/vid6/vid12.mp4   ",
+    "6vid13": " /videos/vid6/vid13.mp4   ",
+    "6vid14": " /videos/vid6/vid14.mp4   ",
+   
+  },
+
+  formLinks: {
+    "6act1":   " https://forms.gle/R4Wnf3t94FduTins6",
+    "6act2":   " https://forms.gle/7WNkiiSHmPbVCZNG9", 
+    "6act3":   " https://forms.gle/AVdV86sbv1QwkHh58",
+    "6act4":   " https://forms.gle/p2XmbeQp9tLZy6Bo9",
+    "6act5":   " https://forms.gle/d1qZ56R5XAXvtwFY6", 
+    "6act6":   " ",
+    "6act7":   " ",
+    "6act8":   " ",
+    "6act9":   " ",
+    "6act10":  " ",
+    "6act11":  " ", // الاسم الجديد لـ LeiaPix
+    "6act12":  " ",
+    "6act13":  " ",
+    "6act14":  " ",
+    "6act15":  " ",
+    "6act16":  " ",
+    "6act17":  " ",
+    "6act18":  " ",
+  },
+}

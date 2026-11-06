@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual History Engine - رحلة عبر الزمن</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <!-- 3D Model Viewer -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="bg-dark text-white p-2 shadow-sm d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+            <h5 class="m-0 text-nowrap"><i class="bi bi-compass text-warning"></i> <span id="lesson-title">التحميل...</span></h5>
+            
+            <!-- Timeline -->
+            <div class="timeline-container ms-4 d-none d-md-flex align-items-center position-relative">
+                <div class="timeline-line bg-secondary position-absolute w-100 start-0 z-0" style="height: 4px; top: 50%; transform: translateY(-50%);"></div>
+                <div id="timeline-nodes" class="d-flex justify-content-between position-relative z-1" style="width: 400px;">
+                    <!-- Nodes injected via JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex align-items-center gap-3">
+            <!-- Emotion Indicator -->
+            <div id="emotion-indicator" class="bg-dark border border-secondary rounded-pill px-3 py-1 d-none d-lg-flex align-items-center gap-2" title="مؤشر الذكاء العاطفي والحماس">
+                <span id="emotion-emoji" class="fs-5" style="transition: transform 0.3s;">🤔</span>
+                <div class="progress" style="width: 80px; height: 8px; background-color: #495057;">
+                    <div id="emotion-bar" class="progress-bar bg-info transition-all" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            
+            <span class="text-light opacity-75 small" id="scene-progress">المحطة 1 من 10</span>
+            <div class="score-badge bg-primary rounded-pill px-3 py-1 fw-bold text-nowrap">
+                النقاط: <span id="score-display">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Scene Area -->
+    <main class="flex-grow-1 position-relative bg-black overflow-hidden d-flex justify-content-center align-items-center">
+        <div id="scene-container" class="scene-container position-relative bg-white shadow-lg">
+            <img id="scene-bg" src="" alt="Background" class="w-100 h-100 object-fit-cover position-absolute top-0 start-0 z-0">
+            <!-- Elements and Hotspots will be injected here -->
+        </div>
+        
+        <!-- Navigation Arrows -->
+        <button id="btn-prev-scene" class="btn btn-dark bg-opacity-75 position-absolute start-0 top-50 translate-middle-y ms-3 fs-3 z-3 rounded-circle" style="width: 60px; height: 60px;"><i class="bi bi-chevron-right"></i></button>
+        <button id="btn-next-scene" class="btn btn-dark bg-opacity-75 position-absolute end-0 top-50 translate-middle-y me-3 fs-3 z-3 rounded-circle" style="width: 60px; height: 60px;"><i class="bi bi-chevron-left"></i></button>
+        <!-- 3D Model Button -->
+        <button class="btn btn-warning position-absolute bottom-0 start-0 m-4 z-3 rounded-pill fw-bold shadow-lg" data-bs-toggle="modal" data-bs-target="#model3dModal">
+            <i class="bi bi-box"></i> استكشاف المجسم 3D
+        </button>
+    </main>
+
+    <!-- Interaction Panel (Bottom) -->
+    <footer id="interaction-panel" class="bg-light border-top shadow-lg p-3 d-none">
+        <div class="container text-center max-w-700">
+            <h4 id="question-text" class="mb-3 fw-bold text-dark"></h4>
+            <div id="options-container" class="d-flex flex-wrap justify-content-center gap-2 mb-2">
+                <!-- Options injected here -->
+            </div>
+            <div id="feedback-alert" class="alert d-none fw-bold py-2 mb-2" role="alert"></div>
+            <button id="btn-continue" class="btn btn-secondary mt-1 d-none px-5 rounded-pill">متابعة</button>
+        </div>
+    </footer>
+
+    <!-- Initial Instructions overlay -->
+    <div id="start-overlay" class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 z-3 d-flex justify-content-center align-items-center">
+        <div class="bg-white p-5 rounded-4 shadow-lg text-center max-w-500">
+            <h2 class="mb-3 text-primary"><i class="bi bi-search"></i> استكشاف المشهد</h2>
+            <p class="fs-5 mb-4" id="lesson-desc">ابحث عن النقاط الحمراء الوامضة في المشهد واضغط عليها لاكتشاف الأدلة التاريخية والإجابة على الأسئلة.</p>
+            <button id="btn-start" class="btn btn-lg btn-primary rounded-pill px-5">ابدأ الرحلة الزمنية</button>
+        </div>
+    </div>
+
+    <!-- Final Overlay -->
+    <div id="end-overlay" class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-90 z-3 d-flex justify-content-center align-items-center d-none">
+        <div class="bg-white p-5 rounded-4 shadow-lg text-center max-w-500">
+            <h1 class="mb-3 text-success"><i class="bi bi-trophy-fill"></i> مبروك!</h1>
+            <p class="fs-4 mb-4">لقد أتممت رحلتك عبر الزمن بنجاح.</p>
+            <h2 class="mb-4 text-primary">نقاطك النهائية: <span id="final-score">0</span></h2>
+            <button onclick="location.reload()" class="btn btn-lg btn-outline-primary rounded-pill px-5">إعادة الرحلة</button>
+        </div>
+    </div>
+
+    <!-- 3D Model Modal -->
+    <div class="modal fade" id="model3dModal" tabindex="-1" aria-labelledby="model3dModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content bg-dark text-white border-secondary">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="model3dModalLabel"><i class="bi bi-box"></i> تمثال أثري كلاسيكي (يوناني / روماني)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0" style="height: 70vh;">
+                    <model-viewer 
+                        src="https://raw.githubusercontent.com/playcanvas/engine/main/examples/assets/models/statue.glb" 
+                        alt="Classical Statue 3D model" 
+                        auto-rotate 
+                        camera-controls 
+                        style="width: 100%; height: 100%; background-color: #212529;"
+                        shadow-intensity="1">
+                    </model-viewer>
+                </div>
+                <div class="modal-footer border-secondary justify-content-between">
+                    <small class="text-muted">ملاحظة: تم جلب هذا المجسم الكلاسيكي بناءً على طلبك ليمثل الفنون العريقة.</small>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

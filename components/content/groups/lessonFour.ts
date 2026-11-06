@@ -1,0 +1,73 @@
+import type { ButtonItem } from "@/components/content/mainitems/types";
+
+export const lessonFour = {
+  items: <ButtonItem[]>
+[
+    //عشان تضيف فيديو من اليوتيوب خد الرابط من embed
+{ type: "button", id: "4vid0", text: "الأهداف", icon: "intro", time: "" },
+{ type: "button", id: "4act1", text: "توجية", icon: "activity" },
+{ type: "button", id: "4act2", text: "نشاط", icon: "activity" },
+{ type: "button", id: "4vid1", text: "التجارة عند العرب قديمًا", icon: "video" },
+{ type: "button", id: "4act3", text: "نشاط", icon: "activity" },
+{ type: "button", id: "4vid2", text: "طرق التجارة القديمة", icon: "video" },
+{ type: "button", id: "4vid3", text: "طريق الحرير", icon: "video" },
+{ type: "button", id: "4vid4", text: "التجارة الخارجية", icon: "video" },
+{ type: "button", id: "4vid5", text: "مجاميع الصادرات العربية", icon: "video" },
+{ type: "button", id: "4act4", text: "نشاط", icon: "activity" },
+{ type: "button", id: "4vid6", text: "خصائص التجارة الخارجية", icon: "video" },
+{ type: "button", id: "4vid7", text: "التجارة الخارجية للعراق", icon: "video" },
+{ type: "button", id: "4act5", text: "نشاط", icon: "activity" },
+{ type: "button", id: "4vid8", text: "اهتمام العرب بعلم الجغرافية", icon: "video" },
+{ type: "button", id: "4vid9", text: "تطور الفكر الجغرافي العربي", icon: "video" },
+{ type: "button", id: "4act6", text: "نشاط", icon: "activity" },
+{ type: "button", id: "4vid10", text: "سعة الأفق الجغرافي العربي", icon: "video" },
+{ type: "button", id: "4vid11", text: "الأنواء الجوية عند العرب", icon: "video" },
+{ type: "button", id: "4vid112", text: "تطور الفكر الجغرافي", icon: "video" },
+{ type: "button", id: "4vid13", text: "مظاهر تطور الفكر", icon: "video" },
+{ type: "button", id: "4act7", text: "نشاط", icon: "activity" },
+{ type: "button", id: "4act8", text: "موقف", icon: "activity" },
+{ type: "button", id: "4act9", text: "نشاط", icon: "activity" },
+{ type: "button", id: "4act10", text: "نشاط", icon: "activity" },
+{ type: "button", id: "4act1", text: "نشاط", icon: "activity" },
+{ type: "button", id: "4act12", text: "ملخص", icon: "activity" },
+{ type: "button", id: "4act12", text: "تقويم", icon: "quiz" },
+],
+  videoMap: 
+  {
+    "4vid0": "/videos/vid4/vid0.mp4",
+    "4vid1": "/videos/vid4/vid1.mp4",
+    "4vid2": "/videos/vid4/vid2.mp4",
+    "4vid3": "/videos/vid4/vid3.mp4",
+    "4vid4": "/videos/vid4/vid4.mp4",
+    "4vid5": "/videos/vid4/vid5.mp4",
+    "4vid6": "/videos/vid4/vid6.mp4",
+    "4vid7": "/videos/vid4/vid7.mp4",
+    "4vid8": "/videos/vid4/vid8.mp4",
+    "4vid9": "/videos/vid4/vid9.mp4",
+    "4vid10": "/videos/vid4/vid10.mp4",
+    "4vid11": "/videos/vid4/vid11.mp4",
+    "4vid12": "/videos/vid4/vid12.mp4   ",
+    "4vid13": "/videos/vid4/vid13.mp4   ",
+    "4vid14": "/videos/vid4/vid14.mp4   ",
+    "4vid15": "/videos/vid4/vid15.mp4   ",
+    "4vid16": "/videos/vid4/vid16.mp4   ",
+
+  },
+
+  formLinks: 
+  {
+    "4act1":   "  https://forms.gle/eJyim3LGvhNR9TUg8  ",
+    "4act2":   "  https://forms.gle/jUnp14EELs7mM6kU7  ",
+    "4act3":   "  https://forms.gle/FvT3pqVv8Yxi6c1c6   ",
+    "4act4":   "  https://forms.gle/oPDpXxMozHTbrjeR9   ",
+    "4act5":   "  https://forms.gle/i6jin4dChSYw839D7   ",
+    "4act6":   "  https://forms.gle/bYMnxFLAvKuTbmY67  ",
+    "4act7":   "  https://forms.gle/K8j1Hg8ZYJjCq9n69   ",
+    "4act8":   "  https://forms.gle/fDe4JiRxKgTS1QPe8  ",
+    "4act9":   "  https://forms.gle/HSKoHcviY5nAh2gR8  ",
+    "4act10":  "  https://forms.gle/7zQT6rhp3dquuFfB7  ",
+    "4act11":  "  https://forms.gle/ZVXkvb16JgRoHBN39  ",
+    "4act12":  "  https://forms.gle/6kw1n9qkiimD2GJF7 ",
+    "4act13":  "  https://forms.gle/gBRm8Ni7Qzx8PuEb8 ",
+  },
+}
